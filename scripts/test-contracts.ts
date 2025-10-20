@@ -23,8 +23,18 @@ async function main() {
   const board = await Board.deploy(deployer.address);
   await board.waitForDeployment();
 
+  const Reputation = await ethers.getContractFactory("RecruiterReputation");
+  const reputation = await Reputation.deploy();
+  await reputation.waitForDeployment();
+
+  const SkillCredential = await ethers.getContractFactory("SkillCredential");
+  const skillCredential = await SkillCredential.deploy();
+  await skillCredential.waitForDeployment();
+
   console.log("ResumeRegistry deployed to:", await registry.getAddress());
   console.log("JobBoard deployed to:", await board.getAddress());
+  console.log("RecruiterReputation deployed to:", await reputation.getAddress());
+  console.log("SkillCredential deployed to:", await skillCredential.getAddress());
 
   // Test ResumeRegistry
   console.log("\n--- Testing ResumeRegistry ---");

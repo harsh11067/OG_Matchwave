@@ -4,6 +4,13 @@ pragma solidity ^0.8.24;
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
+event HireConfirmed(uint256 indexed jobId, address indexed candidate, address recruiter, string outcomeURI);
+
+function confirmHire(uint256 jobId, address candidate, string calldata outcomeURI) {
+    emit HireConfirmed(jobId, candidate, msg.sender, outcomeURI);
+}
+
+
 contract JobBoard is Ownable {
     using ECDSA for bytes32;
 

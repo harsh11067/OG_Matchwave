@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { useAppStore, generateId, generateTimestamp } from '../lib/store';
 import { JobPosting, Candidate } from '../lib/types';
 
-// Alias for compatibility
-type Job = JobPosting;
 
 export default function RecruiterFlow() {
   const [currentStep, setCurrentStep] = useState<'post-job' | 'match-candidates' | 'results'>('post-job');
@@ -76,7 +74,7 @@ export default function RecruiterFlow() {
       }
 
       // Create job object
-      const job: Job = {
+      const job: JobPosting = {
         id: generateId(),
         title: jobForm.title,
         company: jobForm.company,
@@ -184,13 +182,161 @@ export default function RecruiterFlow() {
   };
 
   const handleViewProfile = (candidate: Candidate) => {
+    console.log('Opening profile for candidate:', candidate);
+    if (!candidate) {
+      alert('❌ Candidate data not found');
+      return;
+    }
+    
+    // Show detailed candidate information in alert (like view-button.tsx)
+    const skills = candidate.analysis?.skills?.found?.join(", ") || "No skills found";
+    const experience = candidate.analysis?.experience?.years || "N/A";
+    const education = candidate.analysis?.education?.degree || "N/A";
+    const overallScore = candidate.analysis?.overallScore || 0;
+    const skillsScore = candidate.analysis?.skills?.score || 0;
+    const marketDemand = candidate.analysis?.marketDemand?.demandScore || 0;
+    const recommendations = candidate.analysis?.recommendations?.join("\n• ") || "No recommendations";
+    
+    alert(`
+👤 CANDIDATE PROFILE
+
+Name: ${candidate.name}
+Email: ${candidate.email || "Not provided"}
+
+📊 ANALYSIS RESULTS
+Overall Score: ${overallScore}%
+Skills Score: ${skillsScore}%
+Market Demand: ${marketDemand}/10
+
+🎯 SKILLS
+${skills}
+
+💼 EXPERIENCE
+${experience} years
+
+🎓 EDUCATION
+${education}
+
+💡 RECOMMENDATIONS
+• ${recommendations}
+
+📄 RESUME INFO
+Hash: ${candidate.resumeHash || "N/A"}
+Storage: ${candidate.storageURI || "N/A"}
+    `);
+    
+    // Also open the modal for detailed view
     setSelectedCandidate(candidate);
     setShowProfileModal(true);
   };
 
   const handleContactCandidate = (candidate: Candidate) => {
+    if (!candidate) {
+      alert('❌ Candidate data not found');
+      return;
+    }
+    
+    if (!candidate.email) {
+      alert(`⚠️ Email not available for ${candidate.name}`);
+      return;
+    }
+    
     // In a real application, this would open an email client or messaging system
-    alert(`Contacting ${candidate.name} at ${candidate.email}`);
+    alert(`📩 Contacting ${candidate.name} at ${candidate.email}`);
+  };
+
+  const handleMintCredential = async (candidate: Candidate) => {
+    const privateKey = typeof window !== 'undefined' ? localStorage.getItem('0g-private-key') : null;
+    if (!privateKey) {
+      alert('Please set your 0G private key in the Dashboard.');
+      return;
+    }
+
+    if (!candidate || !candidate.email) {
+      alert('❌ Invalid candidate data - email not found');
+      return;
+    }
+
+    try {
+      // Step 1: Create comprehensive credential data
+      const credentialData = {
+        candidate: candidate.email,
+        candidateName: candidate.name,
+        skills: candidate.analysis?.skills?.found || [],
+        skillsScore: candidate.analysis?.skills?.score || 0,
+        overallScore: candidate.analysis?.overallScore || 0,
+        experience: candidate.analysis?.experience?.years || 0,
+        education: candidate.analysis?.education?.degree || 'Not specified',
+        marketDemand: candidate.analysis?.marketDemand?.demandScore || 0,
+        recommendations: candidate.analysis?.recommendations || [],
+        issuedAt: Date.now(),
+        issuer: '0G Matchwave',
+        description: 'Verified skill credential issued via 0G Hiring Platform',
+        jobId: useAppStore.getState().jobs[useAppStore.getState().jobs.length - 1]?.id,
+        resumeHash: candidate.resumeHash,
+        storageURI: candidate.storageURI,
+        metadata: {
+          type: 'skill-credential',
+          version: '1.0',
+          blockchain: '0G Chain',
+          standard: 'ERC-721'
+        }
+      };
+
+      // Step 2: Upload credential JSON to 0G Storage
+      const uploadRes = await fetch('/api/upload-credential', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          credential: credentialData, 
+          privateKey 
+        }),
+      });
+
+      const uploadData = await uploadRes.json();
+
+      if (!uploadData.success) {
+        throw new Error(uploadData.error || 'Failed to upload credential to 0G Storage');
+      }
+
+      // Step 3: Mint NFT Credential via smart contract
+      const credentialURI = uploadData.result.storageURI;
+      
+      const mintRes = await fetch('/api/mint-credential', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          candidate: candidate.email, 
+          credentialData, 
+          privateKey 
+        }),
+      });
+
+      const mintData = await mintRes.json();
+
+      if (mintData.success) {
+        console.log('✅ Credential uploaded to 0G Storage:', credentialURI);
+        console.log('🎓 Skills verified:', credentialData.skills);
+        console.log('📊 Overall Score:', credentialData.overallScore);
+        console.log('🔗 NFT Minted:', mintData.txHash);
+
+        alert(`✅ Credential NFT Successfully Minted!\n\n👤 Candidate: ${candidate.name}\n📧 Email: ${candidate.email}\n📋 Skills: ${credentialData.skills.join(', ')}\n📊 Overall Score: ${credentialData.overallScore}%\n🎓 Market Demand: ${credentialData.marketDemand}/10\n\n🔗 0G Storage URI: ${credentialURI}\n⛓️ Transaction Hash: ${mintData.txHash}\n\n🎉 This credential is now stored on 0G Storage and minted as an ERC-721 NFT!`);
+
+        // Offer to open on 0G Explorer immediately
+        try {
+          const open = confirm('Open transaction on 0G Explorer?');
+          if (open) {
+            window.open(`https://chainscan-galileo.0g.ai/tx/${mintData.txHash}`, '_blank');
+          }
+        } catch {}
+      } else {
+        throw new Error(mintData.error || 'Failed to mint NFT credential');
+      }
+
+    } catch (error) {
+      console.error('Mint credential error:', error);
+      alert(`❌ Failed to mint credential: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   };
 
   // Post Job Step
@@ -465,6 +611,7 @@ export default function RecruiterFlow() {
           <div className="space-y-4">
             {matchingResults.map((match, index) => {
               const candidate = candidates.find(c => c.id === match.candidateId);
+              console.log('Match:', match, 'Found candidate:', candidate);
               return (
                 <div key={match.candidateId} className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
@@ -476,7 +623,7 @@ export default function RecruiterFlow() {
                     </div>
                     <div className="text-right">
                       <div className="text-3xl font-bold text-blue-600">
-                        {match.score}%
+                        {match.overallScore || match.score || 0}%
                       </div>
                       <p className="text-sm text-gray-500">Match Score</p>
                     </div>
@@ -486,23 +633,23 @@ export default function RecruiterFlow() {
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
                     <div className="text-center p-3 bg-gray-50 rounded">
                       <p className="text-sm text-gray-600">Skills</p>
-                      <p className="text-lg font-bold text-blue-600">{match.breakdown.skills}%</p>
+                      <p className="text-lg font-bold text-blue-600">{match.breakdown.skillsScore || 0}%</p>
                     </div>
                     <div className="text-center p-3 bg-gray-50 rounded">
                       <p className="text-sm text-gray-600">Location</p>
-                      <p className="text-lg font-bold text-blue-600">{match.breakdown.location}%</p>
+                      <p className="text-lg font-bold text-blue-600">{match.breakdown.locationScore || 0}%</p>
                     </div>
                     <div className="text-center p-3 bg-gray-50 rounded">
                       <p className="text-sm text-gray-600">Salary</p>
-                      <p className="text-lg font-bold text-blue-600">{match.breakdown.salary}%</p>
+                      <p className="text-lg font-bold text-blue-600">{match.breakdown.salaryScore || 0}%</p>
                     </div>
                     <div className="text-center p-3 bg-gray-50 rounded">
                       <p className="text-sm text-gray-600">Education</p>
-                      <p className="text-lg font-bold text-blue-600">{match.breakdown.education}%</p>
+                      <p className="text-lg font-bold text-blue-600">{match.breakdown.educationScore || 0}%</p>
                     </div>
                     <div className="text-center p-3 bg-gray-50 rounded">
                       <p className="text-sm text-gray-600">Experience</p>
-                      <p className="text-lg font-bold text-blue-600">{match.breakdown.experience}%</p>
+                      <p className="text-lg font-bold text-blue-600">{match.breakdown.experienceScore || 0}%</p>
                     </div>
                   </div>
 
@@ -534,6 +681,12 @@ export default function RecruiterFlow() {
                       className="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
                     >
                       👁️ View Full Profile
+                    </button>
+                    <button 
+                      onClick={() => candidate && handleMintCredential(candidate)}
+                      className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+                    >
+                      🎓 Mint Credential
                     </button>
                     <button 
                       onClick={() => candidate && handleContactCandidate(candidate)}
@@ -742,6 +895,12 @@ export default function RecruiterFlow() {
                 className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200"
               >
                 Close
+              </button>
+              <button
+                onClick={() => selectedCandidate && handleMintCredential(selectedCandidate)}
+                className="px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                🎓 Mint Credential
               </button>
               <button
                 onClick={() => selectedCandidate && handleContactCandidate(selectedCandidate)}

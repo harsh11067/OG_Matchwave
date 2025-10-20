@@ -5,6 +5,8 @@
 @layer base {
   html {
     font-family: system-ui, sans-serif;
+    /* subtle app-wide background to complement Spline purple scene */
+    background: linear-gradient(180deg, rgba(245,240,255,0.55), rgba(248,240,255,0.45)) fixed;
   }
 }
 
@@ -18,11 +20,11 @@
   }
   
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+    @apply bg-white/70 backdrop-blur-sm rounded-lg shadow-sm border border-violet-100 p-6;
   }
   
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply w-full px-3 py-2 border border-violet-200 bg-white/70 backdrop-blur-sm rounded-md focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-transparent;
   }
 }
 

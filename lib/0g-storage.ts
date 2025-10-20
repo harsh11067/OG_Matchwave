@@ -1,5 +1,5 @@
-// Mock 0G Storage Service for demonstration purposes
-// In production, this would use the actual 0G SDK
+// Mock implementation for now - replace with real 0G SDK when available
+// import { ZeroGStorage } from "@0glabs/0g-ts-sdk";
 
 export interface StorageResult {
   rootHash: string;
@@ -7,101 +7,170 @@ export interface StorageResult {
   txHash: string;
 }
 
+/**
+ * 0G Storage Service
+ * Handles uploads and downloads via 0G SDK with safe mock fallback.
+ */
 export class OGStorageService {
-  constructor(privateKey: string) {
-    // In production, this would initialize the actual 0G SDK
-    // For now, we just store the private key for demonstration
-    console.log('0G Storage Service initialized with private key');
+  private client: any = null;
+  private mockMode: boolean = true; // Always use mock for now
+
+  constructor(privateKey?: string) {
+    try {
+      if (!privateKey) {
+        console.warn("[OGStorageService] No private key provided — running in mock mode.");
+        this.mockMode = true;
+        return;
+      }
+
+      // Mock client for now - replace with real 0G SDK when available
+      this.client = null;
+
+      console.log("[OGStorageService] Initialized 0G Storage client ✅");
+    } catch (err) {
+      console.error("[OGStorageService] Failed to init 0G SDK, switching to mock mode:", err);
+      this.mockMode = true;
+    }
   }
 
   /**
-   * Upload resume file to 0G Storage
+   * Upload arbitrary JSON data to 0G or mock storage
+   */
+  async uploadJSON(data: object): Promise<StorageResult> {
+    try {
+      if (this.mockMode || !this.client) {
+        return this.mockUpload(JSON.stringify(data));
+      }
+
+      const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+      const buffer = await blob.arrayBuffer();
+
+      const result = await this.client.uploadBuffer(Buffer.from(buffer), {
+        fileName: `data-${Date.now()}.json`,
+      });
+
+      return {
+        rootHash: result.rootHash,
+        storageURI: `zgs://${result.rootHash}`,
+        txHash: result.txHash,
+      };
+    } catch (error) {
+      console.error("[OGStorageService] uploadJSON failed:", error);
+      throw new Error("Failed to upload JSON");
+    }
+  }
+
+  /**
+   * Upload resume file (e.g. PDF)
    */
   async uploadResume(file: File): Promise<StorageResult> {
     try {
-      // For now, create a mock implementation since 0G SDK expects file paths
-      // In production, this would use the actual 0G SDK
+      if (this.mockMode || !this.client) {
+        const arrayBuffer = await file.arrayBuffer();
+        return this.mockUpload(arrayBuffer);
+      }
+
       const arrayBuffer = await file.arrayBuffer();
-      const hash = await this.generateMockHash(arrayBuffer);
-      
+      const result = await this.client.uploadBuffer(Buffer.from(arrayBuffer), {
+        fileName: file.name || `resume-${Date.now()}`,
+      });
+
       return {
-        rootHash: hash,
-        storageURI: `0g://${hash}`,
-        txHash: `0x${hash}`
+        rootHash: result.rootHash,
+        storageURI: `zgs://${result.rootHash}`,
+        txHash: result.txHash,
       };
     } catch (error) {
-      console.error('Error uploading resume:', error);
-      throw error;
+      console.error("[OGStorageService] uploadResume failed:", error);
+      throw new Error("Failed to upload resume");
     }
   }
 
   /**
-   * Generate a mock hash for demonstration purposes
-   */
-  private async generateMockHash(data: ArrayBuffer | Uint8Array): Promise<string> {
-    // Convert Uint8Array to ArrayBuffer if needed
-    const arrayBuffer = data instanceof Uint8Array ? data.buffer : data;
-    const dataView = new DataView(arrayBuffer);
-    let hash = 0;
-    
-    for (let i = 0; i < dataView.byteLength; i++) {
-      hash = ((hash << 5) - hash + dataView.getUint8(i)) & 0xffffffff;
-    }
-    
-    return hash.toString(16).padStart(8, '0');
-  }
-
-  /**
-   * Download resume from 0G Storage
-   */
-  async downloadResume(rootHash: string, outputPath: string): Promise<void> {
-    try {
-      // Mock implementation - in production this would use the actual 0G SDK
-      console.log(`Mock download: ${rootHash} to ${outputPath}`);
-    } catch (error) {
-      console.error('Error downloading resume:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Upload analysis report to 0G Storage
+   * Upload analysis report to 0G
    */
   async uploadReport(report: any): Promise<StorageResult> {
     try {
-      // For now, create a mock implementation since 0G SDK expects file paths
-      // In production, this would use the actual 0G SDK
+      if (this.mockMode || !this.client) {
+        return this.mockUpload(JSON.stringify(report));
+      }
+
       const reportJson = JSON.stringify(report);
-      const encoder = new TextEncoder();
-      const data = encoder.encode(reportJson);
-      const hash = await this.generateMockHash(data);
-      
+      const buffer = Buffer.from(reportJson);
+
+      const result = await this.client.uploadBuffer(buffer, {
+        fileName: `report-${Date.now()}.json`,
+      });
+
       return {
-        rootHash: hash,
-        storageURI: `0g://${hash}`,
-        txHash: `0x${hash}`
+        rootHash: result.rootHash,
+        storageURI: `zgs://${result.rootHash}`,
+        txHash: result.txHash,
       };
     } catch (error) {
-      console.error('Error uploading report:', error);
-      throw new Error(`Failed to upload report: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error("[OGStorageService] uploadReport failed:", error);
+      throw new Error("Failed to upload report");
     }
   }
 
   /**
-   * Get file info from root hash
+   * Download file by root hash
+   */
+  async download(rootHash: string): Promise<Blob | null> {
+    try {
+      if (this.mockMode || !this.client) {
+        console.log(`[Mock Download] rootHash: ${rootHash}`);
+        return new Blob([`Mock content for ${rootHash}`]);
+      }
+
+      const data = await this.client.downloadToBuffer(rootHash);
+      return new Blob([data]);
+    } catch (error) {
+      console.error("[OGStorageService] download failed:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Retrieve metadata
    */
   async getFileInfo(rootHash: string): Promise<any> {
-    try {
-      // This would typically involve querying the indexer for file metadata
-      // For now, return basic info
-      return {
-        rootHash,
-        storageURI: `0g://${rootHash}`,
-        timestamp: Date.now()
-      };
-    } catch (error) {
-      console.error('Error getting file info:', error);
-      throw error;
+    return {
+      rootHash,
+      storageURI: `zgs://${rootHash}`,
+      timestamp: new Date().toISOString(),
+      mock: this.mockMode,
+    };
+  }
+
+  /**
+   * Internal mock upload for local/dev testing
+   */
+  private async mockUpload(data: ArrayBuffer | string): Promise<StorageResult> {
+    const hash = await this.generateMockHash(data);
+    return {
+      rootHash: hash,
+      storageURI: `mock://${hash}`,
+      txHash: `0x${hash}`,
+    };
+  }
+
+  /**
+   * Simple mock hash function (stable, lightweight)
+   */
+  private async generateMockHash(data: ArrayBuffer | string): Promise<string> {
+    let bytes: Uint8Array;
+
+    if (typeof data === "string") {
+      bytes = new TextEncoder().encode(data);
+    } else {
+      bytes = new Uint8Array(data);
     }
+
+    let hash = 0;
+    for (let i = 0; i < bytes.length; i++) {
+      hash = ((hash << 5) - hash + bytes[i]) & 0xffffffff;
+    }
+    return hash.toString(16).padStart(8, "0");
   }
 }

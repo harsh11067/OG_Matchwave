@@ -24,6 +24,11 @@ const config: HardhatUserConfig = {
       url: process.env.NEXT_PUBLIC_0G_RPC_URL || "https://evmrpc-testnet.0g.ai/",
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
       chainId: 16602
+    },
+    "og-testnet-galileo": {
+      url: "https://evmrpc-testnet.0g.ai/",
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 16602
     }
   }
 };

@@ -11,6 +11,7 @@ export default function CandidateFlow() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [parsedResume, setParsedResume] = useState<ParsedResume | null>(null);
   const [preferences, setPreferences] = useState({
+    email: '',
     roles: [''],
     location: '',
     salary: { min: 0, max: 0 },
@@ -131,7 +132,7 @@ export default function CandidateFlow() {
       const candidate: Candidate = {
         id: generateId(),
         name: parsedResume.fileName.replace(/\.[^/.]+$/, ''),
-        email: '', // Will be filled by user in preferences
+        email: preferences.email || `candidate-${generateId()}@example.com`,
         resumeHash: storageResult.rootHash,
         storageURI: storageResult.storageURI,
         preferences,
@@ -324,6 +325,20 @@ export default function CandidateFlow() {
                 Add Role
               </button>
             </div>
+          </div>
+
+          {/* Contact Email */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Contact Email</h3>
+            <input
+              type="email"
+              value={preferences.email}
+              onChange={(e) => handlePreferencesChange('email', e.target.value)}
+              placeholder="e.g., you@example.com"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+            <p className="text-xs text-gray-500 mt-2">This email helps recruiters contact you directly.</p>
           </div>
 
           {/* Location */}
