@@ -29,6 +29,16 @@ const config: HardhatUserConfig = {
       url: "https://evmrpc-testnet.0g.ai/",
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
       chainId: 16602
+    },
+    og_mainnet: {
+      url: process.env.NEXT_PUBLIC_0G_RPC_URL_MAINNET || "https://evmrpc.0g.ai",
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 16661
+    },
+    "og-mainnet": {
+      url: process.env.NEXT_PUBLIC_0G_RPC_URL_MAINNET || "https://evmrpc.0g.ai",
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 16661
     }
   }
 };

@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"overallScore\":38,\"skills\":{\"found\":[\"C++\",\"C#\",\"Go\",\"PHP\",\"CSS\"],\"missing\":[\"JavaScript\",\"Python\",\"Java\",\"React\",\"Node.js\"],\"score\":33},\"gaps\":[\"JavaScript\",\"Python\",\"Java\"],\"experience\":{\"years\":0,\"score\":0},\"education\":{\"degree\":\"Other\",\"cgpa\":3.2,\"score\":75},\"recommendations\":[\"Improve your JavaScript skills\",\"Improve your Python skills\",\"Improve your Java skills\"],\"marketDemand\":{\"overall\":3,\"skills\":{\"JavaScript\":5,\"Python\":5,\"Java\":5,\"React\":4,\"Node.js\":4,\"SQL\":4,\"Git\":3,\"AWS\":3,\"Docker\":3,\"Kubernetes\":2,\"TypeScript\":2,\"Angular\":2,\"Vue.js\":1,\"Machine Learning\":1,\"Cloud Computing\":1,\"DevOps\":1}},\"learningPaths\":[\"JavaScript course\",\"Python course\"],\"timestamp\":\"2025-11-04T13:52:35.150Z\"}",
+  "createdAt": "2025-11-04T13:52:37.657Z"
+}

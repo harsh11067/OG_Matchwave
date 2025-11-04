@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"candidate\":\"pls@gmail.com\",\"candidateName\":\"anonymous\",\"candidateAddress\":\"0x071a19F7eB5D2eD8188858c5f69de44CcBD725e3\",\"skills\":[\"Python\",\"SQL\",\"Machine Learning\"],\"skillsScore\":30,\"overallScore\":58,\"experience\":4,\"education\":\"Masters\",\"marketDemand\":0,\"recommendations\":[\"Add Git usage / project repo references\"],\"issuedAt\":1762231475192,\"issuer\":\"0G Matchwave\",\"description\":\"Verified skill credential issued via 0G Hiring Platform\",\"jobId\":\"h8tyk6n9r\",\"resumeHash\":\"-16f13e81\",\"storageURI\":\"mock://-16f13e81\",\"metadata\":{\"type\":\"skill-credential\",\"version\":\"1.0\",\"blockchain\":\"0G Chain\",\"standard\":\"ERC-721\"}}",
+  "createdAt": "2025-11-04T04:44:35.518Z"
+}

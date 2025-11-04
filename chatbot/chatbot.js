@@ -76,3 +76,42 @@ const server = createServer(async (req) => {
 });
 
 server.listen();
+
+// /pages/api/chatbot.ts
+import { NextApiRequest, NextApiResponse } from "next";
+import { Broker } from "@0glabs/0g-serving-broker";
+
+const broker = new Broker({
+  url: process.env.NEXT_PUBLIC_0G_COMPUTE_BROKER_URL || "https://compute.0g.ai",
+  apiKey: process.env.OG_COMPUTE_API_KEY || "",
+});
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const { query, role } = req.body; // role: "recruiter" | "candidate"
+
+    // Add dynamic prompt routing
+    let prompt = "";
+    if (role === "recruiter") {
+      prompt = `Find top candidates skilled in ${query.skill} from region ${query.region}. Rank them by match score and experience.`;
+    } else {
+      prompt = `Suggest jobs matching ${query.skills.join(", ")} in ${query.region}.`;
+    }
+
+    const response = await broker.submitJob({
+      jobType: "chat",
+      model: "gpt-4o-mini",
+      input: prompt,
+    });
+
+    const result = await broker.waitForJob(response.jobId);
+
+    res.status(200).json({
+      success: true,
+      output: result.output_text,
+    });
+  } catch (err: any) {
+    console.error("Chatbot error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+}

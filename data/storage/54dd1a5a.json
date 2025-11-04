@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"candidate\":\"me@gmail.com\",\"candidateName\":\"DENNIS SCHERRER-resume\",\"candidateAddress\":\"0x071a19F7eB5D2eD8188858c5f69de44CcBD725e3\",\"skills\":[\"C#\",\"Go\",\"CSS\"],\"skillsScore\":20,\"overallScore\":39,\"experience\":3,\"education\":\"Masters\",\"marketDemand\":0,\"recommendations\":[\"Improve your JavaScript skills\",\"Improve your Python skills\",\"Improve your Java skills\"],\"issuedAt\":1762250625546,\"issuer\":\"0G Matchwave\",\"description\":\"Verified skill credential issued via 0G Hiring Platform\",\"jobId\":\"8k3dkfasu\",\"resumeHash\":\"7a6312a0\",\"storageURI\":\"mock://7a6312a0\",\"metadata\":{\"type\":\"skill-credential\",\"version\":\"1.0\",\"blockchain\":\"0G Chain\",\"standard\":\"ERC-721\"}}",
+  "createdAt": "2025-11-04T10:03:45.812Z"
+}

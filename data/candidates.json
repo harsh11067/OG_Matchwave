@@ -1,0 +1,510 @@
+[
+  {
+    "id": "3402499a-9478-443d-857f-e07f324f1b98",
+    "name": "DENNIS SCHERRER-resume",
+    "email": "me@gmail.com",
+    "resumeHash": "789afd91",
+    "storageURI": "mock://789afd91",
+    "preferences": {
+      "email": "me@gmail.com",
+      "roles": [
+        "swe"
+      ],
+      "location": "CA",
+      "salary": {
+        "min": 0,
+        "max": 229
+      },
+      "skills": [
+        "js"
+      ]
+    },
+    "analysis": {
+      "overallScore": 21,
+      "skills": {
+        "found": [],
+        "missing": [
+          "Python",
+          "Java",
+          "React",
+          "SQL",
+          "Git"
+        ],
+        "score": 0
+      },
+      "gaps": [
+        "Python",
+        "Java",
+        "React"
+      ],
+      "experience": {
+        "years": 0,
+        "score": 0
+      },
+      "education": {
+        "degree": "Other",
+        "cgpa": 3.2,
+        "score": 75
+      },
+      "recommendations": [
+        "Improve your Python skills",
+        "Improve your Java skills",
+        "Improve your React skills"
+      ],
+      "marketDemand": {
+        "overall": 3,
+        "skills": {
+          "JavaScript": 5,
+          "Python": 5,
+          "Java": 5,
+          "React": 4,
+          "Node.js": 4,
+          "SQL": 4,
+          "Git": 3,
+          "AWS": 3,
+          "Docker": 3,
+          "Kubernetes": 2,
+          "TypeScript": 2,
+          "Angular": 2,
+          "Vue.js": 1,
+          "Machine Learning": 1,
+          "Cloud Computing": 1,
+          "DevOps": 1
+        }
+      },
+      "learningPaths": [
+        "Python course",
+        "Java course"
+      ],
+      "timestamp": "2025-11-04T11:12:17.030Z"
+    },
+    "did": null,
+    "didUri": null,
+    "createdAt": "2025-11-04T11:12:18.450Z"
+  },
+  {
+    "id": "bc5c8fc0-ba2e-4e72-9958-e64f9963d711",
+    "name": "GIULIA GONZALEZ",
+    "email": "nemp@gmail.com",
+    "resumeHash": "56face8b",
+    "storageURI": "mock://56face8b",
+    "preferences": {
+      "email": "nemp@gmail.com",
+      "roles": [
+        "it"
+      ],
+      "location": "SAN",
+      "salary": {
+        "min": 0,
+        "max": 5000
+      },
+      "skills": [
+        "React"
+      ]
+    },
+    "analysis": {
+      "overallScore": 21,
+      "skills": {
+        "found": [],
+        "missing": [
+          "Python",
+          "Java",
+          "React",
+          "SQL",
+          "Git"
+        ],
+        "score": 0
+      },
+      "gaps": [
+        "Python",
+        "Java",
+        "React"
+      ],
+      "experience": {
+        "years": 0,
+        "score": 0
+      },
+      "education": {
+        "degree": "Other",
+        "cgpa": 3.2,
+        "score": 75
+      },
+      "recommendations": [
+        "Improve your Python skills",
+        "Improve your Java skills",
+        "Improve your React skills"
+      ],
+      "marketDemand": {
+        "overall": 3,
+        "skills": {
+          "JavaScript": 5,
+          "Python": 5,
+          "Java": 5,
+          "React": 4,
+          "Node.js": 4,
+          "SQL": 4,
+          "Git": 3,
+          "AWS": 3,
+          "Docker": 3,
+          "Kubernetes": 2,
+          "TypeScript": 2,
+          "Angular": 2,
+          "Vue.js": 1,
+          "Machine Learning": 1,
+          "Cloud Computing": 1,
+          "DevOps": 1
+        }
+      },
+      "learningPaths": [
+        "Python course",
+        "Java course"
+      ],
+      "timestamp": "2025-11-04T11:13:35.130Z"
+    },
+    "did": null,
+    "didUri": null,
+    "createdAt": "2025-11-04T11:13:40.086Z"
+  },
+  {
+    "id": "9096ed4a-2673-4941-acd0-1afb249d27f5",
+    "name": "GIULIA GONZALEZ",
+    "email": "why@gmail.com",
+    "resumeHash": "7c665024",
+    "storageURI": "mock://7c665024",
+    "preferences": {
+      "email": "why@gmail.com",
+      "roles": [
+        "it"
+      ],
+      "location": "CA",
+      "salary": {
+        "min": 0,
+        "max": 4998
+      },
+      "skills": [
+        "js"
+      ]
+    },
+    "analysis": {
+      "overallScore": 21,
+      "skills": {
+        "found": [],
+        "missing": [
+          "Python",
+          "Java",
+          "React",
+          "SQL",
+          "Git"
+        ],
+        "score": 0
+      },
+      "gaps": [
+        "Python",
+        "Java",
+        "React"
+      ],
+      "experience": {
+        "years": 0,
+        "score": 0
+      },
+      "education": {
+        "degree": "Other",
+        "cgpa": 3.2,
+        "score": 75
+      },
+      "recommendations": [
+        "Improve your Python skills",
+        "Improve your Java skills",
+        "Improve your React skills"
+      ],
+      "marketDemand": {
+        "overall": 3,
+        "skills": {
+          "JavaScript": 5,
+          "Python": 5,
+          "Java": 5,
+          "React": 4,
+          "Node.js": 4,
+          "SQL": 4,
+          "Git": 3,
+          "AWS": 3,
+          "Docker": 3,
+          "Kubernetes": 2,
+          "TypeScript": 2,
+          "Angular": 2,
+          "Vue.js": 1,
+          "Machine Learning": 1,
+          "Cloud Computing": 1,
+          "DevOps": 1
+        }
+      },
+      "learningPaths": [
+        "Python course",
+        "Java course"
+      ],
+      "timestamp": "2025-11-04T11:17:40.416Z"
+    },
+    "did": null,
+    "didUri": null,
+    "createdAt": "2025-11-04T11:17:41.780Z"
+  },
+  {
+    "id": "6157d8a3-62e1-476c-8968-0b8edf836353",
+    "name": "hashit cv",
+    "email": "what@gmail.com",
+    "resumeHash": "433e869c",
+    "storageURI": "mock://433e869c",
+    "preferences": {
+      "email": "what@gmail.com",
+      "roles": [
+        "it"
+      ],
+      "location": "CA",
+      "salary": {
+        "min": 0,
+        "max": 4999
+      },
+      "skills": [
+        "js"
+      ]
+    },
+    "analysis": {
+      "overallScore": 21,
+      "skills": {
+        "found": [],
+        "missing": [
+          "JavaScript",
+          "Python",
+          "Java",
+          "React",
+          "Node.js"
+        ],
+        "score": 0
+      },
+      "gaps": [
+        "JavaScript",
+        "Python",
+        "Java"
+      ],
+      "experience": {
+        "years": 0,
+        "score": 0
+      },
+      "education": {
+        "degree": "Other",
+        "cgpa": 3.2,
+        "score": 75
+      },
+      "recommendations": [
+        "Improve your JavaScript skills",
+        "Improve your Python skills",
+        "Improve your Java skills"
+      ],
+      "marketDemand": {
+        "overall": 3,
+        "skills": {
+          "JavaScript": 5,
+          "Python": 5,
+          "Java": 5,
+          "React": 4,
+          "Node.js": 4,
+          "SQL": 4,
+          "Git": 3,
+          "AWS": 3,
+          "Docker": 3,
+          "Kubernetes": 2,
+          "TypeScript": 2,
+          "Angular": 2,
+          "Vue.js": 1,
+          "Machine Learning": 1,
+          "Cloud Computing": 1,
+          "DevOps": 1
+        }
+      },
+      "learningPaths": [
+        "JavaScript course",
+        "Python course"
+      ],
+      "timestamp": "2025-11-04T13:41:50.075Z"
+    },
+    "did": null,
+    "didUri": null,
+    "createdAt": "2025-11-04T13:41:51.758Z"
+  },
+  {
+    "id": "799d2d86-bee7-4bab-a588-f6eb40e98175",
+    "name": "java-software-engineer-resume-example",
+    "email": "nons@gmail.com",
+    "resumeHash": "30889246",
+    "storageURI": "mock://30889246",
+    "preferences": {
+      "email": "nons@gmail.com",
+      "roles": [
+        "it"
+      ],
+      "location": "remote",
+      "salary": {
+        "min": 0,
+        "max": 499
+      },
+      "skills": [
+        "js"
+      ]
+    },
+    "analysis": {
+      "overallScore": 38,
+      "skills": {
+        "found": [
+          "C++",
+          "C#",
+          "Go",
+          "PHP",
+          "CSS"
+        ],
+        "missing": [
+          "JavaScript",
+          "Python",
+          "Java",
+          "React",
+          "Node.js"
+        ],
+        "score": 33
+      },
+      "gaps": [
+        "JavaScript",
+        "Python",
+        "Java"
+      ],
+      "experience": {
+        "years": 0,
+        "score": 0
+      },
+      "education": {
+        "degree": "Other",
+        "cgpa": 3.2,
+        "score": 75
+      },
+      "recommendations": [
+        "Improve your JavaScript skills",
+        "Improve your Python skills",
+        "Improve your Java skills"
+      ],
+      "marketDemand": {
+        "overall": 3,
+        "skills": {
+          "JavaScript": 5,
+          "Python": 5,
+          "Java": 5,
+          "React": 4,
+          "Node.js": 4,
+          "SQL": 4,
+          "Git": 3,
+          "AWS": 3,
+          "Docker": 3,
+          "Kubernetes": 2,
+          "TypeScript": 2,
+          "Angular": 2,
+          "Vue.js": 1,
+          "Machine Learning": 1,
+          "Cloud Computing": 1,
+          "DevOps": 1
+        }
+      },
+      "learningPaths": [
+        "JavaScript course",
+        "Python course"
+      ],
+      "timestamp": "2025-11-04T13:52:35.150Z"
+    },
+    "did": null,
+    "didUri": null,
+    "createdAt": "2025-11-04T13:52:36.943Z"
+  },
+  {
+    "id": "86e53853-e0f7-49f6-b75f-37c625fae47d",
+    "name": "DENNIS SCHERRER-resume",
+    "email": "sdv@gmail.com",
+    "resumeHash": "153a401b",
+    "storageURI": "mock://153a401b",
+    "preferences": {
+      "email": "sdv@gmail.com",
+      "roles": [
+        "sad"
+      ],
+      "location": "cv ",
+      "salary": {
+        "min": 0,
+        "max": 49
+      },
+      "skills": [
+        "ks"
+      ]
+    },
+    "analysis": {
+      "overallScore": 31,
+      "skills": {
+        "found": [
+          "C#",
+          "Go",
+          "CSS"
+        ],
+        "missing": [
+          "JavaScript",
+          "Python",
+          "Java",
+          "React",
+          "Node.js"
+        ],
+        "score": 20
+      },
+      "gaps": [
+        "JavaScript",
+        "Python",
+        "Java"
+      ],
+      "experience": {
+        "years": 0,
+        "score": 0
+      },
+      "education": {
+        "degree": "Other",
+        "cgpa": 3.2,
+        "score": 75
+      },
+      "recommendations": [
+        "Improve your JavaScript skills",
+        "Improve your Python skills",
+        "Improve your Java skills"
+      ],
+      "marketDemand": {
+        "overall": 3,
+        "skills": {
+          "JavaScript": 5,
+          "Python": 5,
+          "Java": 5,
+          "React": 4,
+          "Node.js": 4,
+          "SQL": 4,
+          "Git": 3,
+          "AWS": 3,
+          "Docker": 3,
+          "Kubernetes": 2,
+          "TypeScript": 2,
+          "Angular": 2,
+          "Vue.js": 1,
+          "Machine Learning": 1,
+          "Cloud Computing": 1,
+          "DevOps": 1
+        }
+      },
+      "learningPaths": [
+        "JavaScript course",
+        "Python course"
+      ],
+      "timestamp": "2025-11-04T13:55:28.135Z"
+    },
+    "did": null,
+    "didUri": null,
+    "createdAt": "2025-11-04T13:55:29.564Z"
+  }
+]

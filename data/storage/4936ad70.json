@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"overallScore\":28,\"skills\":{\"found\":[\"Git\"],\"missing\":[\"JavaScript\",\"Python\",\"Java\",\"React\",\"Node.js\"],\"score\":6},\"gaps\":[\"JavaScript\",\"Python\",\"Java\"],\"experience\":{\"years\":2,\"score\":20},\"education\":{\"degree\":\"Bachelors\",\"cgpa\":3.2,\"score\":75},\"recommendations\":[\"Improve your JavaScript skills\",\"Improve your Python skills\",\"Improve your Java skills\"],\"marketDemand\":{\"overall\":5,\"skills\":{\"JavaScript\":10,\"Python\":10,\"Java\":9,\"React\":8,\"Node.js\":8,\"SQL\":7,\"Git\":6,\"AWS\":6,\"Docker\":5,\"Kubernetes\":4,\"TypeScript\":4,\"Angular\":3,\"Vue.js\":2,\"Machine Learning\":2,\"Cloud Computing\":1,\"DevOps\":1}},\"learningPaths\":[\"JavaScript course\",\"Python course\"],\"timestamp\":\"2025-11-04T08:53:36.044Z\"}",
+  "createdAt": "2025-11-04T08:53:36.405Z"
+}

@@ -12,8 +12,11 @@ export interface Candidate {
       max: number;
     };
     skills: string[];
+    email?: string;
   };
   analysis?: ResumeAnalysis;
+  did?: string | null;
+  didUri?: string | null;
   createdAt: string;
 }
 
@@ -40,6 +43,8 @@ export interface JobPosting {
     education: number;
     experience: number;
   };
+  chainId?: number; // Chain ID (e.g., 16602 for 0G Chain, 137 for Polygon, 534352 for Scroll)
+  networkName?: string; // Network name (e.g., "0G Chain", "Polygon", "Scroll")
   isActive: boolean;
   postedAt: string;
   createdAt: string;
@@ -64,8 +69,9 @@ export interface ResumeAnalysis {
   };
   recommendations: string[];
   marketDemand: {
-    skills: string[];
-    demandScore: number;
+    skills: string[] | Record<string, number>;
+    demandScore?: number;
+    overall?: number;
   };
   learningPaths: string[];
   timestamp: string;

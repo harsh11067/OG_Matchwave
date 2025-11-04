@@ -1,17 +1,25 @@
-# dependencies
+# Node / Next
 node_modules/
-
-# next.js build
 .next/
+dist/
+out/
 
-# hardhat build/cache
+# frontend subfolder (if exists)
+frontend/node_modules/
+frontend/.next/
+
+# Rust/Hardhat builds (if present)
+target/
 artifacts/
 cache/
 
-# environment variables
+# env + logs
 .env
-
-# misc
-.DS_Store
+.env.local
 *.log
 *.tsbuildinfo
+
+# editor / OS
+.vscode/
+.DS_Store
+Thumbs.db

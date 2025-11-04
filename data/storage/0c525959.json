@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"didDoc\":{\"id\":\"did:ethr:0x071a19F7eB5D2eD8188858c5f69de44CcBD725e3\",\"controller\":\"0x071a19F7eB5D2eD8188858c5f69de44CcBD725e3\",\"createdAt\":\"2025-11-04T03:54:44.385Z\"},\"signature\":\"0xe7057606fd427647e12be4ef05475166fafc1e0c12fa599d224fb5259778a387126afdd932f13dfeb1a3e6e29de074ad199898a480128fb39f2826746e01b9d61b\",\"uploadedAt\":\"2025-11-04T03:54:49.595Z\"}",
+  "createdAt": "2025-11-04T03:54:49.596Z"
+}

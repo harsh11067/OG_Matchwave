@@ -7,8 +7,6 @@ export type Job = JobPosting;
 // Re-export types for convenience
 export type { Candidate, JobPosting, AnalysisSession, MatchingSession };
 
-// These interfaces are now imported from types.ts
-
 interface AppState {
   // Candidates
   candidates: Candidate[];

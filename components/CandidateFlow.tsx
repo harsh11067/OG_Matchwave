@@ -5,6 +5,9 @@ import { useDropzone } from 'react-dropzone';
 import { useAppStore, generateId, generateTimestamp } from '../lib/store';
 import { ResumeParser, ParsedResume } from '../lib/resume-parser';
 import { Candidate } from '../lib/types';
+import { ethers } from 'ethers';
+import dynamic from 'next/dynamic';
+const CreateDidButton = dynamic(() => import('./CreateDidButton'), { ssr: false });
 
 export default function CandidateFlow() {
   const [currentStep, setCurrentStep] = useState<'upload' | 'preferences' | 'analysis' | 'complete'>('upload');
@@ -96,13 +99,25 @@ export default function CandidateFlow() {
 
       const { result: storageResult } = await uploadResponse.json();
 
-      // Analyze resume using API route (0G Compute)
+      // Read file as base64 for advanced analysis (integrate fit_it.ts logic)
+      const arrayBuffer = await uploadedFile.arrayBuffer();
+      // Convert ArrayBuffer to base64 (browser-compatible)
+      const bytes = new Uint8Array(arrayBuffer);
+      let binary = '';
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      const b64 = btoa(binary);
+
+      // Analyze resume using API route (0G Compute) with base64 file
       const analysisResponse = await fetch('/api/analyze-resume', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          resumeText: parsedResume.text,
-          preferences
+          fileB64: b64,
+          fileName: uploadedFile.name,
+          preferences,
+          resumeText: parsedResume.text // Fallback text
         })
       });
 
@@ -137,11 +152,14 @@ export default function CandidateFlow() {
         storageURI: storageResult.storageURI,
         preferences,
         analysis,
+        did: null,
+        didUri: null,
         createdAt: generateTimestamp()
       };
 
       // Add to store
       addCandidate(candidate);
+      setAnalysisResult({ ...analysis, candidate });
       addAnalysisSession({
         id: generateId(),
         candidateId: candidate.id,
@@ -214,6 +232,7 @@ export default function CandidateFlow() {
     setUploadedFile(null);
     setParsedResume(null);
     setPreferences({
+      email: '',
       roles: [''],
       location: '',
       salary: { min: 0, max: 0 },
@@ -256,7 +275,7 @@ export default function CandidateFlow() {
             <div className="space-y-4">
               <span className="text-4xl">📄</span>
               <div>
-                <p className="text-lg font-medium text-gray-900">
+                <p className="text-lg font-bold text-black">
                   {isDragActive ? 'Drop your resume here' : 'Drag & drop your resume here'}
                 </p>
                 <p className="text-gray-500">or click to browse</p>
@@ -269,8 +288,8 @@ export default function CandidateFlow() {
         </div>
 
         {uploadedFile && (
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">File Details</h3>
+          <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-black mb-4">File Details</h3>
             <div className="space-y-2">
               <p><strong>Name:</strong> {uploadedFile.name}</p>
               <p><strong>Size:</strong> {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</p>
@@ -293,8 +312,8 @@ export default function CandidateFlow() {
 
         <form onSubmit={handlePreferencesSubmit} className="space-y-6">
           {/* Roles */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Desired Roles</h3>
+          <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-black mb-4">Desired Roles</h3>
             <div className="space-y-3">
               {preferences.roles.map((role, index) => (
                 <div key={index} className="flex space-x-3">
@@ -328,7 +347,7 @@ export default function CandidateFlow() {
           </div>
 
           {/* Contact Email */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Contact Email</h3>
             <input
               type="email"
@@ -342,7 +361,7 @@ export default function CandidateFlow() {
           </div>
 
           {/* Location */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Preferred Location</h3>
             <input
               type="text"
@@ -355,7 +374,7 @@ export default function CandidateFlow() {
           </div>
 
           {/* Salary Range */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Expected Salary Range</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -384,7 +403,7 @@ export default function CandidateFlow() {
           </div>
 
           {/* Skills */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Key Skills</h3>
             <div className="space-y-3">
               {preferences.skills.map((skill, index) => (
@@ -444,15 +463,15 @@ export default function CandidateFlow() {
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Analysis Complete!</h2>
-          <p className="text-gray-600">Your resume has been analyzed using AI</p>
+          <h2 className="text-2xl font-bold text-black mb-2">Analysis Complete! 🎯</h2>
+          <p className="text-gray-600 font-medium">Your resume has been analyzed using advanced AI-powered 0G Compute with deep learning models for skills extraction, experience evaluation, and market demand analysis.</p>
         </div>
 
         {analysisResult ? (
           <div className="space-y-6">
             {/* Overall Score */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm text-center">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Overall Fit Score</h3>
+            <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm text-center">
+              <h3 className="text-lg font-bold text-black mb-4">Overall Fit Score</h3>
               <div className="text-6xl font-bold text-blue-600 mb-2">
                 {analysisResult.overallScore ?? 0}%
               </div>
@@ -460,7 +479,7 @@ export default function CandidateFlow() {
             </div>
 
             {/* Skills Analysis */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Skills Analysis</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Found skills */}
@@ -496,7 +515,7 @@ export default function CandidateFlow() {
             </div>
 
             {/* Experience Analysis */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Experience Analysis</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -511,7 +530,7 @@ export default function CandidateFlow() {
             </div>
 
             {/* Education Analysis */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Education Analysis</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -526,7 +545,7 @@ export default function CandidateFlow() {
             </div>
 
             {/* Recommendations */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Recommendations</h3>
               <ul className="space-y-2">
                 {(analysisResult.recommendations ?? []).map((rec: string, index: number) => (
@@ -539,7 +558,7 @@ export default function CandidateFlow() {
             </div>
 
             {/* Market Demand */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Market Demand</h3>
               <div className="space-y-4">
                 <div className="text-center">
@@ -551,11 +570,19 @@ export default function CandidateFlow() {
                 <div>
                   <h4 className="font-medium text-gray-700 mb-2">Top In-Demand Skills</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {(analysisResult.marketDemand?.skills ?? []).map((skill: string, index: number) => (
-                      <div key={index} className="text-center p-2 bg-gray-50 rounded">
-                        <p className="font-medium text-sm">{skill}</p>
-                      </div>
-                    ))}
+                    {analysisResult.marketDemand?.skills && typeof analysisResult.marketDemand.skills === 'object' 
+                      ? Object.entries(analysisResult.marketDemand.skills).slice(0, 6).map(([skill, score]: [string, any], index: number) => (
+                        <div key={index} className="text-center p-2 bg-gray-50 rounded">
+                          <p className="font-medium text-sm">{skill}</p>
+                          <p className="text-xs text-gray-600">{score}/10</p>
+                        </div>
+                      ))
+                      : (Array.isArray(analysisResult.marketDemand?.skills) ? analysisResult.marketDemand.skills : []).slice(0, 6).map((skill: string, index: number) => (
+                        <div key={index} className="text-center p-2 bg-gray-50 rounded">
+                          <p className="font-medium text-sm">{skill}</p>
+                        </div>
+                      ))
+                    }
                   </div>
                 </div>
               </div>
@@ -592,7 +619,7 @@ export default function CandidateFlow() {
           <p className="text-gray-600">Your resume has been successfully processed and stored on 0G Network</p>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
           <h3 className="text-lg font-medium text-gray-900 mb-4">What's Next?</h3>
           <div className="space-y-4">
             <div className="flex items-start">
@@ -623,6 +650,26 @@ export default function CandidateFlow() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* DID Creation */}
+        <div className="bg-transparent rounded-xl border border-gray-200/50 p-6 shadow-sm">
+          <h3 className="text-lg font-bold text-black mb-4">Create Decentralized Identifier (DID)</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Create a DID to securely verify your identity on the blockchain. This allows you to control your credentials.
+          </p>
+          <CreateDidButton 
+            walletAddress={null} 
+            candidateId={useAppStore.getState().candidates[useAppStore.getState().candidates.length - 1]?.id || null} 
+          />
+          {useAppStore.getState().candidates[useAppStore.getState().candidates.length - 1]?.didUri && (
+            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
+              <p className="text-sm text-green-800">
+                <strong>DID Created:</strong> {useAppStore.getState().candidates[useAppStore.getState().candidates.length - 1]?.did}
+              </p>
+              <p className="text-xs text-green-600 mt-1">URI: {useAppStore.getState().candidates[useAppStore.getState().candidates.length - 1]?.didUri}</p>
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center space-x-4">

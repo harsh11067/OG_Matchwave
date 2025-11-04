@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"analysis\":{\"overallScore\":21,\"skills\":{\"found\":[],\"missing\":[],\"score\":0},\"gaps\":[],\"experience\":{\"years\":0,\"score\":0},\"education\":{\"degree\":\"Other\",\"cgpa\":3.2,\"score\":75},\"recommendations\":[],\"marketDemand\":{\"overall\":3,\"skills\":{\"JavaScript\":5,\"Python\":5,\"Java\":5,\"React\":4,\"Node.js\":4,\"SQL\":4,\"Git\":3,\"AWS\":3,\"Docker\":3,\"Kubernetes\":2,\"TypeScript\":2,\"Angular\":2,\"Vue.js\":1,\"Machine Learning\":1,\"Cloud Computing\":1,\"DevOps\":1}},\"learningPaths\":[],\"timestamp\":\"2025-11-04T10:49:36.494Z\"},\"preferences\":{\"email\":\"again@gmail.com\",\"roles\":[\"it\"],\"location\":\"CA\",\"salary\":{\"min\":0,\"max\":4999},\"skills\":[\"js\"]},\"fileName\":\"GIULIA GONZALEZ.pdf\",\"createdAt\":\"2025-11-04T10:49:36.495Z\"}",
+  "createdAt": "2025-11-04T10:49:37.433Z"
+}

@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"overallScore\":14,\"skills\":{\"found\":[],\"missing\":[\"JavaScript\",\"Python\",\"Java\",\"React\",\"Node.js\"],\"score\":0},\"gaps\":[\"Machine Learning\",\"Cloud Computing\",\"DevOps\"],\"experience\":{\"years\":2,\"score\":20},\"education\":{\"degree\":\"Masters\",\"cgpa\":3.6,\"score\":85},\"recommendations\":[\"Add Git usage / project repo references\"],\"marketDemand\":{\"overall\":7,\"skills\":{}},\"learningPaths\":[],\"timestamp\":\"2025-11-04T04:45:56.590Z\"}",
+  "createdAt": "2025-11-04T04:45:56.788Z"
+}

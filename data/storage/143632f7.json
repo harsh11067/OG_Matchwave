@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"hired\":true,\"jobMeta\":{\"skills\":[\"Js\"],\"location\":\"CA\",\"salary\":{\"min\":0,\"max\":2499},\"education\":\"bsc\",\"experience\":0},\"candidateMeta\":{\"skills\":[\"C#\",\"Go\",\"CSS\"],\"location\":\"CA\",\"salary\":{\"min\":0,\"max\":5000},\"education\":\"Masters\",\"experience\":3},\"createdAt\":\"2025-11-04T10:03:34.612Z\"}",
+  "createdAt": "2025-11-04T10:03:34.626Z"
+}

@@ -8,6 +8,7 @@ export default function AskOGWidget() {
   const [messages, setMessages] = useState<{ sender: 'user' | 'bot'; text: string }[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<'recruiter' | 'candidate'>('candidate');
 
   async function onSend() {
     if (!input.trim() || loading) return;
@@ -16,8 +17,14 @@ export default function AskOGWidget() {
     setInput('');
     setLoading(true);
     try {
-      const { reply } = await sendChatbotMessage(userText);
-      setMessages((m) => [...m, { sender: 'bot', text: reply }]);
+      // Send message with role context
+      const res = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userText, role })
+      });
+      const data = await res.json();
+      setMessages((m) => [...m, { sender: 'bot', text: data.reply || 'Sorry, something went wrong.' }]);
     } catch (e) {
       setMessages((m) => [...m, { sender: 'bot', text: 'Sorry, something went wrong.' }]);
     } finally {
@@ -40,12 +47,22 @@ export default function AskOGWidget() {
   return (
     <div className="fixed bottom-6 right-6 w-80 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-2xl overflow-hidden z-50">
       <div className="px-4 py-3 border-b bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-between">
-        <div>
+        <div className="flex-1">
           <div className="font-bold text-gray-900 flex items-center">
             <span className="mr-2">🤖</span>
             AskOG
           </div>
-          <div className="text-xs text-gray-500">AI Assistant</div>
+          <div className="text-xs text-gray-500 mt-1">AI Assistant</div>
+        </div>
+        <div className="mx-3">
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value as 'recruiter' | 'candidate')}
+            className="text-xs px-2 py-1 border border-gray-300 rounded bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            <option value="candidate">👤 Candidate</option>
+            <option value="recruiter">💼 Recruiter</option>
+          </select>
         </div>
         <button
           onClick={() => setIsExpanded(false)}

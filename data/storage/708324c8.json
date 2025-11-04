@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"overallScore\":58,\"skills\":{\"found\":[\"Python\",\"SQL\",\"Machine Learning\"],\"missing\":[\"JavaScript\",\"Java\",\"React\",\"Node.js\",\"AWS\"],\"score\":30},\"experience\":{\"years\":4,\"score\":100,\"gaps\":[]},\"education\":{\"degree\":\"Masters\",\"cgpa\":3.6,\"score\":85},\"recommendations\":[\"Add Git usage / project repo references\"],\"marketDemand\":{\"overall\":7,\"skills\":{\"JavaScript\":10,\"Python\":10,\"Java\":9,\"React\":8,\"Node.js\":8,\"SQL\":7,\"AWS\":6,\"Docker\":6,\"Kubernetes\":5,\"TypeScript\":4}},\"learningPaths\":[],\"timestamp\":\"2025-11-04T03:54:11.358Z\"}",
+  "createdAt": "2025-11-04T03:54:11.577Z"
+}

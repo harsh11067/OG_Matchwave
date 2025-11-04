@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"hired\":true,\"jobMeta\":{\"skills\":[\"js\"],\"location\":\"SAN\",\"salary\":{\"min\":0,\"max\":5000},\"education\":\"bs\",\"experience\":0},\"candidateMeta\":{\"skills\":[\"Python\",\"SQL\",\"Machine Learning\"],\"location\":\"remote\",\"salary\":{\"min\":0,\"max\":138},\"education\":\"Masters\",\"experience\":4},\"createdAt\":\"2025-11-04T04:45:10.195Z\"}",
+  "createdAt": "2025-11-04T04:45:10.196Z"
+}

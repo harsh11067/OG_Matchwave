@@ -1,0 +1,5 @@
+{
+  "mock": true,
+  "content": "{\"candidate\":\"haj@gmail.com\",\"candidateName\":\"hashit swe cv\",\"candidateAddress\":\"0x1aB7d5eCBe2c551eBfFdfA06661B77cc60dbd425\",\"skills\":[\"AWS\"],\"skillsScore\":6,\"overallScore\":28,\"experience\":2,\"education\":\"Bachelors\",\"marketDemand\":0,\"recommendations\":[\"Improve your JavaScript skills\",\"Improve your Python skills\",\"Improve your Java skills\"],\"issuedAt\":1762247598054,\"issuer\":\"0G Matchwave\",\"description\":\"Verified skill credential issued via 0G Hiring Platform\",\"jobId\":\"iefgtm6ih\",\"resumeHash\":\"1785132e\",\"storageURI\":\"mock://1785132e\",\"metadata\":{\"type\":\"skill-credential\",\"version\":\"1.0\",\"blockchain\":\"0G Chain\",\"standard\":\"ERC-721\"}}",
+  "createdAt": "2025-11-04T09:13:19.078Z"
+}

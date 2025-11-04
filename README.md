@@ -1,14 +1,19 @@
-# 0G Recruitment dApp
+# 0G Matchwave
 
-A decentralized recruitment platform built on 0G Storage and Compute, featuring AI-powered resume analysis and job matching.
+**AI-powered, bias-free job matching built on 0G Chain, Compute & Storage.**
+
+A decentralized recruitment platform featuring AI-powered resume analysis, intelligent candidate-job matching, and verifiable skill credentials on the blockchain.
 
 ## Features
 
-- **Resume Analysis**: AI-powered resume parsing and scoring
-- **Job Matching**: Intelligent candidate-job matching algorithm
-- **Privacy-First**: PII stored off-chain, only hashes on-chain
-- **0G Integration**: Uses 0G Storage for files and 0G Compute for AI
-- **Smart Contracts**: EVM contracts for transparency and verification
+- **🤖 AI-Powered Resume Analysis**: Advanced skills extraction using OpenAI and 0G Compute
+- **🎯 Intelligent Matching**: Adaptive algorithm that learns from successful hires
+- **🔗 Decentralized Storage**: Resume and credential data stored on 0G Storage (mainnet)
+- **⛓️ Blockchain Verification**: Smart contracts on 0G Chain (mainnet) for transparency
+- **🆔 DID Verification**: Decentralized identity for candidates and recruiters
+- **📜 NFT Credentials**: ERC-721 skill credentials as verifiable achievements
+- **⭐ Reputation System**: On-chain recruiter ratings and feedback
+- **💬 AskOG Chatbot**: AI assistant for recruiters and candidates
 
 ## Architecture
 
@@ -23,8 +28,9 @@ Frontend (Next.js) → API Routes → 0G Services → Smart Contracts (0G Chain)
 
 - Node.js 18+
 - npm or yarn
-- Ethereum private key for 0G testnet
-- 0G testnet OG tokens for gas fees
+- Ethereum private key for 0G Chain mainnet
+- 0G Chain mainnet OG tokens for gas fees
+- OpenAI API key (optional, for enhanced skills extraction)
 
 ## Installation
 
@@ -48,23 +54,44 @@ cp env.example .env.local
 
 ## Smart Contract Deployment
 
+All contracts are deployed to **0G Chain Mainnet** (Chain ID: 16661)
+
+### Deployed Contract Addresses
+
+| Contract | Address | Explorer |
+|----------|---------|----------|
+| **ResumeRegistry** | `0xFd84545E34762943E29Ab17f98815280c4a90Cb6` | [View](https://chainscan.0g.ai/address/0xFd84545E34762943E29Ab17f98815280c4a90Cb6) |
+| **JobBoard** | `0xE23469d5aFb586B8c45D669958Ced489ee9Afb09` | [View](https://chainscan.0g.ai/address/0xE23469d5aFb586B8c45D669958Ced489ee9Afb09) |
+| **RecruiterReputation** | `0xDbBA4f5A4b1D9aE51E533E3C212898169df69EAc` | [View](https://chainscan.0g.ai/address/0xDbBA4f5A4b1D9aE51E533E3C212898169df69EAc) |
+| **SkillCredential** | `0xed401473e938714927392182ea5c8F65593946d8` | [View](https://chainscan.0g.ai/address/0xed401473e938714927392182ea5c8F65593946d8) |
+
+### Deploy New Contracts
+
 1. **Compile contracts:**
 ```bash
 npx hardhat compile
 ```
 
-2. **Deploy to 0G testnet:**
+2. **Deploy to 0G Chain Mainnet:**
 ```bash
-npx hardhat run scripts/deploy.ts --network og_testnet
+npx hardhat run scripts/deploy.ts --network og-mainnet
 ```
 
 3. **Update environment variables** with deployed contract addresses
 
 ## 0G Network Configuration
 
-- **RPC URL**: `https://evmrpc-testnet.0g.ai/`
-- **Storage Indexer**: `https://indexer-storage-testnet-turbo.0g.ai`
-- **Chain ID**: 16600 (verify with network)
+### 0G Chain Mainnet
+- **RPC URL**: `https://evmrpc.0g.ai`
+- **Chain ID**: `16661`
+- **Explorer**: `https://chainscan.0g.ai`
+
+### 0G Storage Mainnet
+- **Indexer**: `https://indexer-storage-turbo.0g.ai`
+
+### 0G Compute Testnet
+- **RPC URL**: `https://evmrpc-testnet.0g.ai`
+- **Broker URL**: `https://compute-galileo.0g.ai/`
 
 ## Development
 
@@ -93,15 +120,26 @@ npm run dev
 
 ## Smart Contracts
 
-### ResumeRegistry
+### ResumeRegistry (`0xFd84545E34762943E29Ab17f98815280c4a90Cb6`)
 - Stores resume hashes and storage URIs
 - Accepts AI analysis results with signatures
 - Verifies compute pipeline authenticity
 
-### JobBoard
+### JobBoard (`0xE23469d5aFb586B8c45D669958Ced489ee9Afb09`)
 - Manages job postings
 - Stores candidate matches with scores
 - Verifies matching results with signatures
+- Supports multi-chain job posting
+
+### RecruiterReputation (`0xDbBA4f5A4b1D9aE51E533E3C212898169df69EAc`)
+- Tracks recruiter ratings and feedback
+- Calculates average ratings on-chain
+- Provides trust scores for recruiters
+
+### SkillCredential (`0xed401473e938714927392182ea5c8F65593946d8`)
+- ERC-721 NFT contract for skill credentials
+- Mints verifiable skill achievements
+- Links to credential metadata on 0G Storage
 
 ## Data Schemas
 
@@ -152,11 +190,25 @@ curl -X POST http://localhost:3000/api/upload-resume \
 
 ## Production Deployment
 
-1. **Deploy contracts to mainnet**
-2. **Set up 0G Compute pipeline**
-3. **Configure production 0G Storage**
-4. **Update environment variables**
-5. **Deploy frontend to hosting service**
+### ✅ Contracts Deployed
+All smart contracts are deployed to **0G Chain Mainnet** (Chain ID: 16661)
+See [CONTRACT_ADDRESSES.md](./CONTRACT_ADDRESSES.md) for deployed addresses.
+
+### ✅ Chatbot Deployed
+Chatbot is deployed to **0G Compute Testnet** via 0G SDK
+- Broker URL: `https://compute-galileo.0g.ai/`
+- Service Name: `chatbot`
+
+### Frontend Deployment
+1. **Set environment variables** (see `.env.example`)
+2. **Build production:**
+   ```bash
+   npm run build
+   ```
+3. **Deploy to hosting** (Vercel, Netlify, etc.)
+4. **Configure environment variables** in hosting platform
+
+See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed deployment instructions.
 
 ## Contributing
 
@@ -165,20 +217,31 @@ curl -X POST http://localhost:3000/api/upload-resume \
 3. Make changes and test
 4. Submit pull request
 
-## License
+## Documentation
 
-MIT License - see LICENSE file for details
+- **[PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md)** - Complete project documentation, architecture, and usage guide
+- **[CONTRACT_ADDRESSES.md](./CONTRACT_ADDRESSES.md)** - Verified contract addresses and network information
+- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Step-by-step deployment instructions
+- **[DEPLOYMENT_COMPLETE.md](./DEPLOYMENT_COMPLETE.md)** - Latest deployment results and status
 
 ## Support
 
-- 0G Documentation: https://docs.0g.ai/
-- 0G Discord: [Join 0G Community]
-- Issues: [GitHub Issues]
+- **0G Documentation**: https://docs.0g.ai/
+- **0G Chain Explorer**: https://chainscan.0g.ai
+- **0G Storage**: https://indexer-storage-turbo.0g.ai
+- **0G Compute**: https://compute-galileo.0g.ai/
 
 ## Roadmap
 
-- [ ] Multi-chain support
-- [ ] Advanced AI models
+- [x] Multi-chain support (0G Chain, Polygon, Scroll)
+- [x] Advanced AI models (OpenAI integration)
+- [x] NFT Credentials (ERC-721)
+- [x] Reputation System (On-chain ratings)
+- [x] Chatbot (AskOG assistant)
 - [ ] Mobile app
 - [ ] Enterprise features
 - [ ] Integration with job boards
+
+## License
+
+MIT License - see LICENSE file for details
