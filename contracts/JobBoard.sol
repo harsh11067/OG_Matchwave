@@ -4,11 +4,6 @@ pragma solidity ^0.8.24;
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-event HireConfirmed(uint256 indexed jobId, address indexed candidate, address recruiter, string outcomeURI);
-
-function confirmHire(uint256 jobId, address candidate, string calldata outcomeURI) {
-    emit HireConfirmed(jobId, candidate, msg.sender, outcomeURI);
-}
 
 
 contract JobBoard is Ownable {
@@ -87,5 +82,12 @@ contract JobBoard is Ownable {
             timestamp: uint64(block.timestamp)
         });
         emit MatchSubmitted(jobId, candidate, score, reportURI);
+    }
+
+    event HireConfirmed(uint256 indexed jobId, address indexed candidate, address recruiter, string outcomeURI);
+
+    function confirmHire(uint256 jobId, address candidate, string calldata outcomeURI) external {
+        require(msg.sender == jobs[jobId].owner, "not job owner");
+        emit HireConfirmed(jobId, candidate, msg.sender, outcomeURI);
     }
 }
