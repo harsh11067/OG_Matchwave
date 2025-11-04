@@ -16,26 +16,25 @@ export default function Dashboard() {
   useEffect(() => {
     const loadData = async () => {
       try {
+        // Clear all existing candidates first to start fresh from 0
+        useAppStore.getState().candidates.forEach(c => {
+          useAppStore.getState().removeCandidate(c.id);
+        });
+        
         // Load candidates from API (will be empty array if data/candidates.json is empty)
         const candidatesRes = await fetch('/api/get-candidates');
         const candidatesData = await candidatesRes.json();
-        if (candidatesData.success) {
-          // Clear all existing candidates first to start fresh from 0
-          const currentCandidates = useAppStore.getState().candidates;
-          currentCandidates.forEach(c => {
-            useAppStore.getState().removeCandidate(c.id);
-          });
-          
+        if (candidatesData.success && candidatesData.candidates && candidatesData.candidates.length > 0) {
           // Add only fresh candidates from API (starting from 0)
-          if (candidatesData.candidates && candidatesData.candidates.length > 0) {
-            candidatesData.candidates.forEach((c: any) => {
-              useAppStore.getState().addCandidate(c);
-            });
-          }
+          candidatesData.candidates.forEach((c: any) => {
+            useAppStore.getState().addCandidate(c);
+          });
         }
         
-        // Load jobs from file (if you have an API endpoint, use it)
-        // For now, jobs are managed in Zustand store
+        // Also clear jobs for consistency
+        useAppStore.getState().jobs.forEach(j => {
+          useAppStore.getState().removeJob(j.id);
+        });
       } catch (err) {
         console.warn('Failed to load data:', err);
       }
