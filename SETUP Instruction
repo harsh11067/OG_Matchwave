@@ -1,0 +1,278 @@
+# 🚀 0G Matchwave - Complete Setup Guide
+
+This guide will walk you through setting up 0G Matchwave from scratch.
+
+---
+
+## 📋 Prerequisites Checklist
+
+Before you begin, ensure you have:
+
+- [ ] **Node.js 18+** installed ([Download](https://nodejs.org/))
+- [ ] **npm** or **yarn** package manager
+- [ ] **Git** installed
+- [ ] **Code editor** (VS Code recommended)
+- [ ] **0G Chain Mainnet** wallet with OG tokens
+- [ ] **OpenAI API Key** (optional, but recommended)
+
+---
+
+## 🛠️ Step-by-Step Setup
+
+### Step 1: Clone the Repository
+
+```bash
+git clone <repository-url>
+cd run
+```
+
+### Step 2: Install Dependencies
+
+```bash
+# Install all project dependencies
+npm install
+```
+
+This will install:
+- Next.js and React dependencies
+- Smart contract development tools (Hardhat)
+- 0G SDK packages
+- UI libraries and utilities
+
+**Expected time**: 2-5 minutes
+
+### Step 3: Set Up Environment Variables
+
+1. **Copy the example environment file:**
+   ```bash
+   cp env.example .env.local
+   ```
+
+2. **Open `.env.local` in your editor** and fill in the following:
+
+#### Required Variables
+
+```env
+# Your private key (export from MetaMask or wallet)
+PRIVATE_KEY=your_mainnet_private_key_here
+
+# Your compute signer private key (can be same as PRIVATE_KEY)
+COMPUTE_SIGNER_PRIVATE_KEY=your_compute_private_key_here
+```
+
+#### Optional but Recommended
+
+```env
+# OpenAI API key for enhanced skills extraction
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+**⚠️ Important**: 
+- Never commit `.env.local` to git
+- Keep your private keys secure
+- The file is already in `.gitignore`
+
+### Step 4: Get OG Tokens
+
+1. Visit [0G Faucet](https://faucet.0g.ai/)
+2. Connect your wallet
+3. Request OG tokens for mainnet
+4. Wait for tokens to arrive (usually instant)
+
+**Minimum recommended**: 0.1 OG for testing
+
+### Step 5: Verify Installation
+
+```bash
+# Check Node.js version (should be 18+)
+node --version
+
+# Check npm version
+npm --version
+
+# Verify dependencies
+npm list --depth=0
+```
+
+### Step 6: Start Development Server
+
+```bash
+npm run dev
+```
+
+You should see:
+```
+✓ Ready in X seconds
+○ Local:        http://localhost:3000
+```
+
+### Step 7: Open in Browser
+
+Navigate to `http://localhost:3000` in your browser.
+
+---
+
+## 🧪 First-Time Setup Verification
+
+### Test 1: Check Environment Variables
+
+1. Open browser console (F12)
+2. Look for any errors related to missing environment variables
+3. Check that contract addresses are loaded
+
+### Test 2: Upload a Test Resume
+
+1. Go to "Candidate Flow" tab
+2. Upload a sample resume (PDF or paste text)
+3. Verify:
+   - ✅ Resume uploads successfully
+   - ✅ Analysis completes
+   - ✅ Skills are identified
+   - ✅ Overall score is displayed
+
+### Test 3: Post a Test Job
+
+1. Go to "Recruiter Flow" tab
+2. Fill in job details
+3. Post job
+4. Verify:
+   - ✅ Job posts successfully
+   - ✅ Job appears in dashboard
+   - ✅ Can find matches
+
+---
+
+## 🔧 Common Setup Issues
+
+### Issue: "Module not found" errors
+
+**Solution**:
+```bash
+# Delete node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Issue: "Private key not set" warning
+
+**Solution**:
+1. Check that `.env.local` exists
+2. Verify `PRIVATE_KEY` is set (no quotes needed)
+3. Restart development server
+
+### Issue: "Cannot find module '@0glabs/0g-serving-broker'"
+
+**Solution**:
+```bash
+npm install @0glabs/0g-serving-broker@^0.5.4
+npm install @0glabs/0g-ts-sdk@^0.1.2
+```
+
+### Issue: Port 3000 already in use
+
+**Solution**:
+```bash
+# Use a different port
+PORT=3001 npm run dev
+```
+
+### Issue: Build errors
+
+**Solution**:
+```bash
+# Clear Next.js cache
+rm -rf .next
+npm run build
+```
+
+---
+
+## 📦 Project Structure Overview
+
+```
+run/
+├── app/                    # Next.js App Router
+│   ├── api/               # Backend API routes
+│   │   ├── analyze-resume/
+│   │   ├── match-candidates/
+│   │   ├── chatbot/
+│   │   └── ...
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/             # React components
+│   ├── Dashboard.tsx      # Main dashboard
+│   ├── CandidateFlow.tsx  # Candidate interface
+│   ├── RecruiterFlow.tsx  # Recruiter interface
+│   └── AskOGWidget.tsx    # Chatbot widget
+├── contracts/              # Smart contracts
+│   ├── ResumeRegistry.sol
+│   ├── JobBoard.sol
+│   ├── RecruiterReputation.sol
+│   └── SkillCredential.sol
+├── lib/                    # Core utilities
+│   ├── 0g-compute.ts      # 0G Compute service
+│   ├── 0g-storage.ts      # 0G Storage service
+│   ├── blockchain.ts      # Blockchain utilities
+│   └── store.ts           # State management
+├── scripts/                # Deployment scripts
+│   ├── deploy.ts          # Contract deployment
+│   └── deploy-chatbot-sdk.js
+├── data/                   # Local data
+│   ├── candidates.json
+│   ├── weights.json
+│   └── storage/
+├── .env.local             # Your environment variables (create this)
+├── env.example            # Environment template
+└── package.json           # Dependencies
+```
+
+---
+
+## 🎯 Next Steps After Setup
+
+1. **Read the documentation**:
+   - [PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md) - Complete guide
+   - [CONTRACT_ADDRESSES.md](./CONTRACT_ADDRESSES.md) - Contract details
+
+2. **Explore the features**:
+   - Upload a resume
+   - Post a job
+   - Test the chatbot
+   - Create a DID
+   - Mint a credential
+
+3. **Customize for your needs**:
+   - Modify UI components
+   - Adjust matching weights
+   - Add custom features
+
+---
+
+## 🔐 Security Checklist
+
+Before deploying to production:
+
+- [ ] `.env.local` is in `.gitignore`
+- [ ] Private keys are never committed
+- [ ] Environment variables are set in hosting platform
+- [ ] Contract addresses are verified
+- [ ] All dependencies are up to date
+- [ ] Code is reviewed and tested
+
+---
+
+## 📞 Need Help?
+
+- Check [Troubleshooting](#-troubleshooting) section
+- Review [PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md)
+- Visit [0G Documentation](https://docs.0g.ai/)
+- Check console logs for detailed error messages
+
+---
+
+## ✅ Setup Complete!
+
+You're all set! Start developing and exploring 0G Matchwave.
+
+**Happy coding! 🚀**
+
